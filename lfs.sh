@@ -1,0 +1,70 @@
+#!/bin/bash
+
+lfsdisk="/dev/sdb"
+lfstgt=$(uname -m)-lfs-linux-gnu
+export lfs="/mnt/lfs"
+umask 0022
+
+if [ ! -d $lfs ] ; then # here [ is a test command -d checks wether the directory exists or not. [ similar to test command
+sudo fdisk $lfsdisk << EOF
+g
+n
+1
+
++300M
+n
+2
+
+
+t
+1
+1
+p
+w
+EOF
+sudo mkfs.ext4 -L ROOT "$lfsdisk"2
+sudo mkfs.ext2 -L BOOT "$lfsdisk"1
+
+sudo mkdir -pv "$lfs"
+sudo mount -v -t ext4 "$lfsdisk"2 $lfs
+
+fi
+
+
+sudo chown -v $USER $lfs
+sudo chmod -v 755 $lfs
+
+mkdir -pv $lfs/sources
+mkdir -pv $lfs/{etc,var} $lfs/usr/{bin/lib/sbin}
+mkdir -pv $lfs/tools
+
+if [ ! -h "$lfs/bin" ] || [ ! -h "$lfs/sbin" ] || [ ! -h "$lfs/lib" ]; then
+	for i in bin lib sbin; do
+		ln -sv usr/$i $lfs/$i
+	done
+fi
+
+case $(uname -m) in
+	x86_64) mkdir -pv $lfs/lib64 ;;
+esac
+
+chmod -v a+wt $lfs/sources
+
+cp -rf *.sh ./lfspackages ./chapter*  "$lfs/sources"
+cd "$lfs/sources" # current /mnt/lfs/sources
+
+
+source ./download.sh
+#for script in gcc binutils libstdc++ linux-api-headers glibc ; do
+#	source ./pkginstall.sh 5 $script
+#done
+
+for folder in 6 ; do
+	for files in "$lfs"/sources/chapter"$folder"/* ; do
+		if [[ "$files" == *.sh ]] ; then
+			file="$(echo "$files" | awk -F'/' '{print $6}' | sed 's/\.sh//')"
+			source ./pkginstall.sh "$folder" "$file"
+		fi
+	done
+done
+
