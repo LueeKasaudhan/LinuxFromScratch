@@ -55,9 +55,6 @@ cd "$lfs/sources" # current /mnt/lfs/sources
 
 
 source ./download.sh
-#for script in gcc binutils libstdc++ linux-api-headers glibc ; do
-#	source ./pkginstall.sh 5 $script
-#done
 
 for folder in 6 ; do
 	for files in "$lfs"/sources/chapter"$folder"/* ; do
@@ -67,4 +64,3 @@ for folder in 6 ; do
 		fi
 	done
 done
-

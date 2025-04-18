@@ -3,7 +3,7 @@ package="$2"
 
 cat ./lfspackages | grep -i "$package" | awk '{print $3}' | grep -i -v ".patch" | while read -r line; do
 	dirname="$(echo "$line" | sed 's/\.tar\..*//')"
-	if [ -d "$dirname" ] ; then
+	if [ -d "$dirname" ]; then
 		rm -rf "$dirname"
 	fi
 	mkdir -pv "$dirname"
