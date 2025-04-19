@@ -1,10 +1,10 @@
 tar -xf ../mpfr-4.2.1.tar.xz
-mv -v mpfr-4.2.1 mpfr
 tar -xf ../gmp-6.3.0.tar.xz
-mv -v gmp-6.3.0 gmp
 tar -xf ../mpc-1.3.1.tar.gz
-mv -v mpc-1.3.1 mpc
 
+mv -v mpfr-4.2.1 mpfr
+mv -v gmp-6.3.0 gmp
+mv -v mpc-1.3.1 mpc
 
 case $(uname -m) in
   x86_64)

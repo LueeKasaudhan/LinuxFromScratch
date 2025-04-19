@@ -15,6 +15,9 @@ fi
 
 if [[ "$package" == "glibc" ]] ; then
 	deppkg="linux-api-headers"
+	if [ -d ./linux-6.13.4 ] ; then
+		rm -rf ./linux-6.13.4/
+	fi
 	mkdir -pv ./linux-6.13.4/
 	echo "glibc dependent on the $deppkg"
 	echo "Extracting linux-6.13.4 kernel source code for compiling $deppkg"
@@ -31,7 +34,7 @@ if [[ "$package" == "glibc" ]] ; then
 fi
 	
 
-cat ./lfspackages | grep -i "$package" | awk '{print $3}' | grep -i -v ".patch" | while read -r line; do
+cat ./lfspackages | grep -i ""$package"-" | awk '{print $3}' | grep -i -v ".patch" | while read -r line; do
 	dirname="$(echo "$line" | sed 's/\.tar\..*//')"
 	if [ -d "$dirname" ]; then
 		rm -rf "$dirname"

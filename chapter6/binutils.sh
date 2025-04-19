@@ -17,7 +17,6 @@ cd       build
     --enable-new-dtags         \
     --enable-default-hash-style=gnu
 
-
 make -j$(nproc)
 
 make DESTDIR=$lfs install

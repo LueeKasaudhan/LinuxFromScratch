@@ -35,7 +35,8 @@ sudo chown -v $USER $lfs
 sudo chmod -v 755 $lfs
 
 mkdir -pv $lfs/sources
-mkdir -pv $lfs/{etc,var} $lfs/usr/{bin/lib/sbin}
+mkdir -pv $lfs/{etc,var} 
+mkdir -pv $lfs/usr/{bin,lib,sbin}
 mkdir -pv $lfs/tools
 
 if [ ! -h "$lfs/bin" ] || [ ! -h "$lfs/sbin" ] || [ ! -h "$lfs/lib" ]; then
@@ -61,9 +62,6 @@ if [ $? -ne 0 ] ; then
 	exit 1
 fi
 
-
-source ./pkginstall.sh 5 glibc
-exit 0
 
 for folder in 5 6 ; do
 	for files in "$lfs"/sources/chapter"$folder"/* ; do
