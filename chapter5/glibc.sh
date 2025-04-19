@@ -11,6 +11,8 @@ patch -Np1 -i ../glibc-2.41-fhs-1.patch
 mkdir -v build
 cd       build
 
+echo "rootsbindir=/usr/sbin" > configparms
+
 ../configure                             \
       --prefix=/usr                      \
       --host=$lfstgt                    \
@@ -20,8 +22,9 @@ cd       build
       --disable-nscd                     \
       libc_cv_slibdir=/usr/lib
 
-make -j$(nproc)
+make -j1
 make DESTDIR=$lfs install
+
 
 sed '/RTLDLIST=/s@/usr@@g' -i $lfs/usr/bin/ldd
 

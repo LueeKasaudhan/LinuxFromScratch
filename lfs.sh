@@ -56,7 +56,16 @@ cd "$lfs/sources" # current /mnt/lfs/sources
 
 source ./download.sh
 
-for folder in 6 ; do
+if [ $? -ne 0 ] ; then
+	echo "Download failed. Exiting lfs script"
+	exit 1
+fi
+
+
+source ./pkginstall.sh 5 glibc
+exit 0
+
+for folder in 5 6 ; do
 	for files in "$lfs"/sources/chapter"$folder"/* ; do
 		if [[ "$files" == *.sh ]] ; then
 			file="$(echo "$files" | awk -F'/' '{print $6}' | sed 's/\.sh//')"
