@@ -28,12 +28,12 @@ sudo mkfs.ext2 -L BOOT "$lfsdisk"1
 sudo mkdir -pv "$lfs"
 sudo mount -v -t ext4 "$lfsdisk"2 $lfs
 
+
 fi
 
-
-sudo chown -v $USER $lfs
+sudo chown -v root:root $lfs
 sudo chmod -v 755 $lfs
-
+who
 mkdir -pv $lfs/sources
 mkdir -pv $lfs/{etc,var} 
 mkdir -pv $lfs/usr/{bin,lib,sbin}
@@ -45,11 +45,13 @@ if [ ! -h "$lfs/bin" ] || [ ! -h "$lfs/sbin" ] || [ ! -h "$lfs/lib" ]; then
 	done
 fi
 
+sudo chown -v root:root $lfs/sources/
+
 case $(uname -m) in
 	x86_64) mkdir -pv $lfs/lib64 ;;
 esac
 
-chmod -v a+wt $lfs/sources
+sudo chmod -v a+wt $lfs/sources
 
 cp -rf *.sh ./lfspackages ./chapter*  "$lfs/sources"
 cd "$lfs/sources" # current /mnt/lfs/sources
@@ -62,6 +64,8 @@ if [ $? -ne 0 ] ; then
 	exit 1
 fi
 
+source ./pkginstall.sh 6 binutils
+exit 0
 
 for folder in 5 6 ; do
 	for files in "$lfs"/sources/chapter"$folder"/* ; do
