@@ -1,10 +1,8 @@
 ./configure --prefix=/usr                      \
             --build=$(sh support/config.guess) \
-            --host=$lfstgt                    \
-            --without-bash-malloc
-
+            --host=$LFS_TGT                    \
+            --without-bash-malloc              \
+            bash_cv_strtold_broken=no
 make -j$(nproc)
-make DESTDIR=$lfs install
-
-ln -sv bash $lfs/bin/sh
-
+make DESTDIR=$LFS install
+ln -sv bash $LFS/bin/sh

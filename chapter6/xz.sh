@@ -1,11 +1,8 @@
 ./configure --prefix=/usr                     \
-            --host=$lfstgt                   \
+            --host=$LFS_TGT                   \
             --build=$(build-aux/config.guess) \
             --disable-static                  \
-            --docdir=/usr/share/doc/xz-5.6.4
-
+            --docdir=/usr/share/doc/xz-5.6.2
 make -j$(nproc)
-
-make DESTDIR=$lfs install
-
-rm -v $lfs/usr/lib/liblzma.la
+make DESTDIR=$LFS install
+rm -v $LFS/usr/lib/liblzma.la

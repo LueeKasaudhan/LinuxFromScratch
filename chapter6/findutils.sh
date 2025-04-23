@@ -1,9 +1,6 @@
-
-
 ./configure --prefix=/usr                   \
             --localstatedir=/var/lib/locate \
-            --host=$lfstgt                 \
+            --host=$LFS_TGT                 \
             --build=$(build-aux/config.guess)
-
 make -j$(nproc)
-make DESTDIR=$lfs install
+make DESTDIR=$LFS install

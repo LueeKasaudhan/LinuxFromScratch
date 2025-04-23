@@ -10,9 +10,9 @@ if ! cat "/etc/passwd" | grep "$newuser" ; then
 	sudo useradd -s /bin/bash -g $newgroup -m -k /dev/null $newuesr
 	echo "Enter the password for $newuser"
 	sudo passwd $newuser
-	sudo chown -v $newuser $lfs/{usr{,/*},var,etc,tools}
+	sudo chown -v $newuser $LFS/{usr{,/*},var,etc,tools}
 	case $(uname -m) in
-	  x86_64) chown -v $newuser $lfs/lib64 ;;
+	  x86_64) chown -v $newuser $LFS/lib64 ;;
 	esac
 fi
 
@@ -23,13 +23,13 @@ EOF
 sudo tee /home/$newuser/.bashrc << "EOF"
 set +h
 umask 022
-lfs=/mnt/lfs
+LFS=/mnt/lfs
 LC_ALL=POSIX
-lfstgt=$(uname -m)-lfs-linux-gnu
+LFS_TGT=$(uname -m)-lfs-linux-gnu
 PATH=/usr/bin
 if [ ! -L /bin ]; then PATH=/bin:$PATH; fi
-PATH=$lfs/tools/bin:$PATH
-CONFIG_SITE=$lfs/usr/share/config.site
-export lfs LC_ALL lfstgt PATH CONFIG_SITE
+PATH=$LFS/tools/bin:$PATH
+CONFIG_SITE=$LFS/usr/share/config.site
+export LFS LC_ALL LFS_TGT PATH CONFIG_SITE
 EOF
 

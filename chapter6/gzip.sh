@@ -1,5 +1,3 @@
-./configure --prefix=/usr --host=$lfstgt
-
+./configure --prefix=/usr --host=$LFS_TGT
 make -j$(nproc)
-
-make DESTDIR=$lfs install
+make DESTDIR=$LFS install

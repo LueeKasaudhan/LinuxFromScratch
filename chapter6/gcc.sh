@@ -1,9 +1,8 @@
 tar -xf ../mpfr-4.2.1.tar.xz
-tar -xf ../gmp-6.3.0.tar.xz
-tar -xf ../mpc-1.3.1.tar.gz
-
 mv -v mpfr-4.2.1 mpfr
+tar -xf ../gmp-6.3.0.tar.xz
 mv -v gmp-6.3.0 gmp
+tar -xf ../mpc-1.3.1.tar.gz
 mv -v mpc-1.3.1 mpc
 
 case $(uname -m) in
@@ -21,11 +20,11 @@ cd       build
 
 ../configure                                       \
     --build=$(../config.guess)                     \
-    --host=$lfstgt                                \
-    --target=$lfstgt                              \
-    LDFLAGS_FOR_TARGET=-L$PWD/$lfstgt/libgcc      \
+    --host=$LFS_TGT                                \
+    --target=$LFS_TGT                              \
+    LDFLAGS_FOR_TARGET=-L$PWD/$LFS_TGT/libgcc      \
     --prefix=/usr                                  \
-    --with-build-sysroot=$lfs                      \
+    --with-build-sysroot=$LFS                      \
     --enable-default-pie                           \
     --enable-default-ssp                           \
     --disable-nls                                  \
@@ -37,9 +36,6 @@ cd       build
     --disable-libssp                               \
     --disable-libvtv                               \
     --enable-languages=c,c++
-
 make -j$(nproc)
-
-make DESTDIR=$lfs install
-
-ln -sv gcc $lfs/usr/bin/cc
+make DESTDIR=$LFS install
+ln -sv gcc $LFS/usr/bin/cc

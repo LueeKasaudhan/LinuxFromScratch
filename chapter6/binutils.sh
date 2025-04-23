@@ -1,14 +1,10 @@
-sed '6031s/$add_dir//' -i ltmain.sh
-
-
+sed '6009s/$add_dir//' -i ltmain.sh
 mkdir -v build
 cd       build
-
-
 ../configure                   \
     --prefix=/usr              \
     --build=$(../config.guess) \
-    --host=$lfstgt            \
+    --host=$LFS_TGT            \
     --disable-nls              \
     --enable-shared            \
     --enable-gprofng=no        \
@@ -16,10 +12,6 @@ cd       build
     --enable-64-bit-bfd        \
     --enable-new-dtags         \
     --enable-default-hash-style=gnu
-
 make -j$(nproc)
-
-make DESTDIR=$lfs install
-
-
-rm -v $lfs/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.{a,la}
+make DESTDIR=$LFS install
+rm -v $LFS/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.{a,la}

@@ -4,13 +4,9 @@ pushd build
                --disable-libseccomp \
                --disable-xzlib      \
                --disable-zlib
-  make -j$(nproc)
+  make
 popd
-
-./configure --prefix=/usr --host=$lfstgt --build=$(./config.guess)
-
+./configure --prefix=/usr --host=$LFS_TGT --build=$(./config.guess)
 make FILE_COMPILE=$(pwd)/build/src/file
-
-rm -v $lfs/usr/lib/libmagic.la
-
-
+make DESTDIR=$LFS install
+rm -v $LFS/usr/lib/libmagic.la

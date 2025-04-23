@@ -1,12 +1,12 @@
+sed -i s/mawk// configure
 mkdir build
 pushd build
-  ../configure AWK=gawk
+  ../configure
   make -C include
   make -C progs tic
 popd
-
 ./configure --prefix=/usr                \
-            --host=$lfstgt              \
+            --host=$LFS_TGT              \
             --build=$(./config.guess)    \
             --mandir=/usr/share/man      \
             --with-manpage-format=normal \
@@ -15,13 +15,9 @@ popd
             --with-cxx-shared            \
             --without-debug              \
             --without-ada                \
-            --disable-stripping          \
-            AWK=gawk
-
+            --disable-stripping
 make -j$(nproc)
-
-
-make DESTDIR=$lfs TIC_PATH=$(pwd)/build/progs/tic install
-ln -sv libncursesw.so $lfs/usr/lib/libncurses.so
+make DESTDIR=$LFS TIC_PATH=$(pwd)/build/progs/tic install
+ln -sv libncursesw.so $LFS/usr/lib/libncurses.so
 sed -e 's/^#if.*XOPEN.*$/#if 1/' \
-    -i $lfs/usr/include/curses.h
+    -i $LFS/usr/include/curses.h

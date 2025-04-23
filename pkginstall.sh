@@ -5,8 +5,8 @@ if [[ "$package" == "libstdc++" ]] ; then
 	echo "Libstdc++ is the standard C++ library. It is needed to compile C++ code (part of GCC is written in C++)"
 	echo "Compiling $package"
 	echo "Entering gcc-14.2.0 directory"
-	pushd "$lfs/sources/gcc-14.2.0/"
-	if ! source "$lfs/sources/chapter$chapter/$package.sh" 2>&1 | tee "$lfs/sources/chapter$chapter/$package.log" ; then
+	pushd "$LFS/sources/gcc-14.2.0/"
+	if ! source "$LFS/sources/chapter$chapter/$package.sh" 2>&1 | tee "$LFS/sources/chapter$chapter/$package.log" ; then
 		echo "Error compiling $package"
 		exit 1
 	fi
@@ -24,7 +24,7 @@ if [[ "$package" == "glibc" ]] ; then
 	tar -xf ./linux-6.13.4.tar.xz -C linux-6.13.4 --strip-components=1
 	pushd ./linux-6.13.4/
 	echo "Compiling $deppkg"
-	if ! source "$lfs/sources/chapter$chapter/$deppkg.sh" 2>&1 | tee "$lfs/sources/chapter$chapter/$deppkg.log" ; then
+	if ! source "$LFS/sources/chapter$chapter/$deppkg.sh" 2>&1 | tee "$LFS/sources/chapter$chapter/$deppkg.log" ; then
 		echo "Error compiling $deppkg. $package can't be compiled."
 		exit 1
 	fi
@@ -49,7 +49,7 @@ cat ./lfspackages | grep -i ""$package"-" | awk '{print $3}' | grep -i -v ".patc
 		fi
 		echo "Compiling $package"
 		sleep 5
-		if ! source "$lfs/sources/chapter$chapter/$package.sh" 2>&1 | tee "$lfs/sources/chapter$chapter/$package.log" ; then
+		if ! source "$LFS/sources/chapter$chapter/$package.sh" 2>&1 | tee "$LFS/sources/chapter$chapter/$package.log" ; then
 			echo "Error compiling $package"
 			exit 1
 		fi
