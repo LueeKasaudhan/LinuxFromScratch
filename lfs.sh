@@ -31,7 +31,7 @@ sudo mount -v -t ext4 "$lfsdisk"2 $LFS
 
 fi
 
-sudo chown -v root:root $LFS
+sudo chown -v mlfs:mlfs $LFS
 sudo chmod -v 755 $LFS
 who
 mkdir -pv $LFS/sources
@@ -64,7 +64,8 @@ if [ $? -ne 0 ] ; then
 	exit 1
 fi
 
-source ./pkginstall.sh 6 binutils
+source ./pkginstall.sh 6 gcc
+
 exit 0
 
 for folder in 5 6 ; do
