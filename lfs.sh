@@ -53,7 +53,7 @@ esac
 
 sudo chmod -v a+wt $LFS/sources
 
-cp -rf *.sh ./lfspackages ./chapter*  "$LFS/sources"
+cp -rf *.sh ./lfspackages ./InChroot/ ./chapter*  "$LFS/sources"
 cd "$LFS/sources" # current /mnt/lfs/sources
 
 
@@ -64,15 +64,31 @@ if [ $? -ne 0 ] ; then
 	exit 1
 fi
 
-source ./pkginstall.sh 6 gcc
+#for folder in 5 6 ; do
+#	for files in "$LFS"/sources/chapter"$folder"/* ; do
+#		if [[ "$files" == *.sh ]] ; then
+#			file="$(echo "$files" | awk -F'/' '{print $6}' | sed 's/\.sh//')"
+#			source ./pkginstall.sh "$folder" "$file"
+#		fi
+#	done
+#done
 
-exit 0
+#TODO implement checking for installation
 
-for folder in 5 6 ; do
-	for files in "$LFS"/sources/chapter"$folder"/* ; do
-		if [[ "$files" == *.sh ]] ; then
-			file="$(echo "$files" | awk -F'/' '{print $6}' | sed 's/\.sh//')"
-			source ./pkginstall.sh "$folder" "$file"
-		fi
-	done
-done
+sudo chmod ugo+x ./chroot.sh
+sudo chmod ugo+x ./InChroot/inchroot.sh
+
+sudo ./chroot.sh $LFS
+
+sudo chroot "$LFS" /usr/bin/env -i   \
+    HOME=/root                  \
+    TERM="$TERM"                \
+    PS1='(lfs chroot) \u:\w\$ ' \
+    PATH=/usr/bin:/usr/sbin     \
+    MAKEFLAGS="-j$(nproc)"      \
+    TESTSUITEFLAGS="-j$(nproc)" \
+    /bin/bash --login +h -c "/sources/InChroot/inchroot.sh"
+
+#mountpoint -q $LFS/dev/shm && umount $LFS/dev/shm
+#umount $LFS/dev/pts
+#umount $LFS/{sys,proc,run,dev}

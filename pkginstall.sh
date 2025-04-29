@@ -34,7 +34,7 @@ if [[ "$package" == "glibc" ]] ; then
 fi
 	
 
-cat ./lfspackages | grep -i ""$package"-" | awk '{print $3}' | grep -i -v ".patch" | while read -r line; do
+cat /sources/lfspackages | grep ""$package"-" | awk '{print $3}' | grep -i -v ".patch" | while read -r line; do
 	dirname="$(echo "$line" | sed 's/\.tar\..*//')"
 	if [ -d "$dirname" ]; then
 		rm -rf "$dirname"
